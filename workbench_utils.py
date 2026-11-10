@@ -104,7 +104,7 @@ def set_media_type(
     if oembed_media_type is not None:
         return oembed_media_type
 
-    if file_fieldname is not None and filepath.strip().startswith("http"):
+    if file_fieldname is not None and filepath.strip().lower().startswith("http"):
         preprocessed_file_path = get_preprocessed_file_path(
             config, file_fieldname, csv_row
         )
@@ -213,7 +213,7 @@ def set_model_from_extension(file_name: str, config: dict) -> Union[None, str, d
     normalized_extension = extension.lower()
     for model_tids in config["models"]:
         for tid, extensions in model_tids.items():
-            if str(tid).startswith("http"):
+            if str(tid).lower().startswith("http"):
                 tid = get_term_id_from_uri(config, tid)
             if normalized_extension in extensions:
                 return tid
@@ -1080,10 +1080,10 @@ def get_nid_from_url_alias(config: dict, url_alias_to_query: str) -> Union[int, 
     if url_alias_to_query is False:
         return False
 
-    if url_alias_to_query.startswith("http") is True:
+    if url_alias_to_query.lower().startswith("http") is True:
         # Drupal sometimes returns "http://" instead of "https://" in the "location"
         # response header. Check for that and replace it if necessary.
-        if url_alias_to_query.startswith("http://") and config["host"].startswith(
+        if url_alias_to_query.lower().startswith("http://") and config["host"].startswith(
             "https://"
         ):
             url_alias_to_query = re.sub(
