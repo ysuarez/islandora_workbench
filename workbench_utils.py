@@ -10441,9 +10441,9 @@ def get_extracted_csv_file_path(config: dict) -> Union[bool, str]:
             A file path with the current config file's unique ID appended to it.
             False if config['input_csv'] is not a Google Sheet or Excel file.
     """
-    if config["input_csv"].startswith("http"):
+    if config["input_csv"].lower().startswith("http"):
         exported_csv_filename = config["google_sheets_csv_filename"]
-    elif config["input_csv"].endswith("xlsx"):
+    elif config["input_csv"].lower().endswith("xlsx"):
         exported_csv_filename = config["excel_csv_filename"]
     else:
         return False
